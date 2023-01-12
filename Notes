@@ -1,0 +1,6 @@
+python data is strongly typed and dynamically typed, so you cant add a string to a int, but you dont need to declare data types of variables
+in python, we can use single quotes or double quotes to enclose strings
+in python, all functions return a value
+variable assignment is done using the equals symbol, anything on the right of the symbol gets executed first and then the assignmnet happens
+you can multiple strings buy ints in python, such as when printing them multiple times
+input function returns a string by default
