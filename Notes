@@ -4,3 +4,43 @@ in python, all functions return a value
 variable assignment is done using the equals symbol, anything on the right of the symbol gets executed first and then the assignmnet happens
 you can multiply strings by ints in python, such as when printing them multiple times
 input function returns a string by default
+
+Many programming languages support the notion of null.
+Null is treated as a special value denoting "not-a-value", something which would let us denote an "empty" or undefined value. 
+Python's version of that is the keyword None, which is backed by the class NoneType. 
+Note that assigning a variable to None does not get rid of the variable. 
+Space is still allocated for the variable - only the value is set to None. 
+If you want to remove the variable altogether you may use the del statement
+
+Python strings are not mutable
+
+In C/C++ the statement int a=7 means, memory is allocated for an integer variable called a (the quantity on the LEFT of the = sign) and only then the value 7 is stored in it.
+In Python the statement a=7 means, a nameless integer object with value 7 (the quantity on the RIGHT side of the =) is created first and stored somewhere in memory. Then the name a is bound to this object.
+The output of the following C++ and Python programs seem to bear this out, but I would like some feedback whether I am right.
+C++ produces different memory locations for a and b while a and b seem to refer to the same location in Python (going by the output of the id() function)
+
+C++ code
+#include<iostream>
+using namespace std;
+int main(void)
+{
+  int a = 7;
+  int b = a; 
+  cout << &a <<  "  " << &b << endl; // a and b point to different locations in memory
+  return 0;
+}
+Output: 0x7ffff843ecb8 0x7ffff843ecbc
+
+Python: code
+a = 7
+b = a
+print id(a), ' ' , id(b) # a and b seem to refer to the same location
+Output: 23093448 23093448
+
+
+In C and C++, a variable is a named memory location. The value of the variable is the value stored in that location. Assign to the variable and you modify that value. So the variable is the memory location, not the name for it.
+
+In Python, a variable is a name used to refer to an object. The value of the variable is that object. So far sounds like the same thing. But assign to the variable and you don't modify the object itself, rather you alter which object the variable refers to. So the variable is the name, not the object.
+
+For this reason, if you're considering the properties of Python in the abstract, or if you're talking about multiple languages at once, then it's useful to use different names for these two different things. To keep things straight you might avoid talking about variables in Python, and refer to what the assignment operator does as "binding" rather than "assignment".
+
