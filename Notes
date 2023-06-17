@@ -12,7 +12,11 @@ Note that assigning a variable to None does not get rid of the variable.
 Space is still allocated for the variable - only the value is set to None. 
 If you want to remove the variable altogether you may use the del statement
 
-Python strings are not mutable
+Python strings are not mutable, they cannot be changed
+
+try not to use keywords in filenames, this can cause errors
+python is case sensitive
+python doesnt have a case/switch statement functionality built in
 
 In C/C++ the statement int a=7 means, memory is allocated for an integer variable called a (the quantity on the LEFT of the = sign) and only then the value 7 is stored in it.
 In Python the statement a=7 means, a nameless integer object with value 7 (the quantity on the RIGHT side of the =) is created first and stored somewhere in memory. Then the name a is bound to this object.
@@ -44,3 +48,38 @@ In Python, a variable is a name used to refer to an object. The value of the var
 
 For this reason, if you're considering the properties of Python in the abstract, or if you're talking about multiple languages at once, then it's useful to use different names for these two different things. To keep things straight you might avoid talking about variables in Python, and refer to what the assignment operator does as "binding" rather than "assignment".
 
+Python vs C++:
+Python much easier to use for scripts and prototypes and proof of concepts or minimum viable products. 
+Python is interepereted line by line and you have to download the interpreter as part of the package, this has 
+to be done on each host. Python includes garbage collection. Python is quick to write but runs slowly due to 
+being interpereted line by line. Python, on the other hand, is not statically typed. 
+There is no type checking done at compile time. Hence, the code is prone 
+to errors. Python has a massive extensive library and community, so that’s 
+something to consider, its very flexible. Python is portable. It is also crossplatform and we can execute programs on any platform.
+C++ is much more powerful and performant, as well as being more reliable due to being statically typed. C++ is 
+compiled and transformed into machine code to run on the native machine’s hardware, to make the most of 
+the hardware and use it efficiently. If a machine’s architecture is different, you probably need to recompile to 
+run the .cc file. C++ executes very quickly, but takes a while to write. C++ is a statically typed 
+language i.e. the declaration of a variable, the data type of variables, etc. 
+are verified at compile time. This keeps the source code error-free at 
+runtime. C++ is not portable i.e. we need to recompile the code on every 
+different platform. C++ is mainly “Write Once, Compile Anywhere”.
+Q #5) Why is C++ faster than Python?
+Answer: Given below are the various reasons for which the C++ code runs 
+faster than Python:
+1. C++ code that is well written spends less time on CPU than Python 
+code.
+2. There is no interpretation step that’s interpreting the program 
+statement by statement.
+3. There is no garbage collector running continuously.
+4. More control over system calls.
+5. We can write a machine-level code easily whenever required.
+All these reasons contribute to the faster performance of the C++ code. 
+Some features of Python that are listed below are also responsible for its 
+slowness.
+These are:
+6. Python is not compiled but interpreted.
+7. There are no primitives in Python, everything is represented as an 
+object included built-in data types.
+8. A Python list holds objects of different types. This makes each entry 
+to hold an additional space to specify the type that adds overhead
