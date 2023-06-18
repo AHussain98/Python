@@ -12,7 +12,7 @@ Note that assigning a variable to None does not get rid of the variable.
 Space is still allocated for the variable - only the value is set to None. 
 If you want to remove the variable altogether you may use the del statement
 
-Python strings are not mutable, they cannot be changed
+Python strings are not mutable, they cannot be changed. Python strings are also a sequence type
 
 try not to use keywords in filenames, this can cause errors
 python is case sensitive
