@@ -94,11 +94,57 @@ transfer = "Hussain","PSG",50000000
 print(transfer) # printed in parenthesis because its a tuple
 print(transfer[2]) # tuples can be referred to by index aswell
 
-# tuples use lest memory than lists because they don't have to deal with methods that change them
+# tuples use less memory than lists because they don't have to deal with methods that change them
 # tuples are used when data must not be changed
 # there is a tuple() function just like with list()
+# you can always unpack a tuple successfully
 
+# you can define multiple variables in a single line
+x,y = 1,2 # these are actually a tuple
+print(x)
+print(y) # this is called unpacking a tuple
 
+data = 1,2,76 # data is a tuple
+x,y,z = data # unpacking the tuple
+print(x)
+print(y)
+print(z) # we print each value by first binding each value in the tuple to a variable
+# this is unpacking a tuple
+# x, y and z are not tuples
+# you cannot get tuples on the left of an assignment because tuples are immutable
+
+# you can actually unpack any sequence type
+# lets try unpacking a list
+data_list = ['p','q','r']
+a,b,c = data_list # list unpacked into three different variables
+
+print(a)
+print(b)
+print(c) # list unpacking is unsafe because lists are mutable, you might append anothe ritem toa  list before you unpack it
+
+for t in enumerate("abcdefgh"):
+    index,character = t # unpack each tuple as we iterate
+    print(index,character)
+   # print(t) # each of these is actually a tuple, we can do this directly
+
+family = "Asad","Aisha","Misha"
+dudu,bubu,misha = family # unpacked the tuple, much easier than indexing to refer to specific items
+print(dudu)
+print(bubu)
+print(misha)
+
+# we can then operate on these variables safely
+
+# if we're nesting a tuple, we have to use parenthesis
+
+families = [("Asad","Shaheda","Tariq"),("Idris","Farah","Qas"),("Zareen","Misha","Alayna")]
+
+# a list containaing three tuples
+for f in families:
+    print("{0} and {1} and {2}".format(f[0],f[1],f[2]))
+for one,two,three in families: # can do it this way
+    print("{0} and {1} and {2}".format(one,two,three))
+print(families[0][1]) # my mama! found via nested indexing
 
 
 
