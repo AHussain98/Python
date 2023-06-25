@@ -1,3 +1,5 @@
+import colorama
+
 # a function that is bound to a class is called a method
 # python function definitions are defined by the keyword def
 
@@ -106,4 +108,12 @@ def fibo(n: int = 5) -> int: # annotate the function to show it accepts an integ
 
 print(fibo(5))
 print(fibo(15))
+CYAN = '\u001b[36m'
+
+
+colorama.init()
+print(CYAN, "this is in cyan")
+print("and so is this")
+colorama.deinit()
+
 
