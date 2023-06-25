@@ -116,4 +116,25 @@ print(CYAN, "this is in cyan")
 print("and so is this")
 colorama.deinit()
 
+# when you use an asterix before an object, it unpacks the sequence
+numbers = (0,1,2,3,4,5) # tuple called numbers
+print(numbers)
+print(*numbers) # *numbers is unpacked, so the print function got print(0, 1, 2, 3, 4, 5)
+#we can add a seperator to print
+print(*numbers,sep=";")
 
+def test_args(*args): # star means that this parameter can take multiple values that act as an unpacked sequence
+    print(args)
+    for x in args:
+        print(x)
+# *args also means the function wont crash if we pass 0 arguments
+test_args(numbers)
+test_args(0,1,2,3,4,5) # testing *args
+
+# a fucntion to test taking both keyword and positional parameters a number of times
+def func(p1,p2,*args,a,**kwargs):
+    print("positional: {}, {}".format(p1,p2))
+    print("variable, positional: {}".format(args))
+    print("keyword: {}".format(a))
+    print("keyword, variable: {}".format(kwargs))
+func(1,2,3,4,5,a=6,key1=7,key2=8)
