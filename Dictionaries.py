@@ -1,4 +1,3 @@
-
 # lists and tuples are sequence types, we can use indexes to access individual items in them
 # dictionaries and sets are not sequences, they are mappings,
 # dictionaries store key/value pairs, each va,ue has a unique key which is used to refer to it
@@ -83,3 +82,85 @@ while current_choice != "0":
             print(key, ":", value)
 
     current_choice = input("Whats your choice? ")
+
+# there are restrictions on what you can use a s akey, but values can be any python object
+pantry = {"chicken" : 500, "chillis" : 10, "paprika" : 5, "coriander" : 20, "salt" : 5}
+recipes = {"spiced chicken": ["chicken", 'chillis','paprika','coriander','salt','rice']}
+
+#print({str(index + 1): meal for index,meal in enumerate(recipes)})  # this is a dictionary comprehension, smarter way to do the below
+# lets create a dictionary to show the meals we can cook
+display_dict = {}
+for index,value in enumerate(recipes): # enumerates can be used with any iterable, such as dictionaries
+    print(index + 1, value) # with a dictionary, enumerate generates an index for each value in the dictionary
+    display_dict[str(index+1)] = value  # stringify the index and make that the key for each recipe
+while True:
+    print("Please choose your recipe:")
+    for key, value in display_dict.items():
+        print(key, " : ",value)
+    choice = input(": ")
+    if choice == "0":
+        break
+    elif choice in display_dict:
+        selected_item = display_dict[choice]
+        print(f"you have selected {selected_item}")
+        print("checking ingredients")
+        ingredients = recipes[selected_item]
+        print(ingredients)
+        # lets check these iteams are available in the pantry
+        # for item, required_quantity in ingredients.items():
+        #     quantity_in_pantry = pantry.get(item,0) # get function returns the item you pass into it, else it returns the default value you pass as the second parameter
+        #     if required_quantity <= quantity_in_pantry:
+        #         print(f" {item} is available")
+        #     else:
+        #         quantity_to_buy = required_quantity = quantity_in_pantry
+        #         print(f" {item} is not available, you need {quantity_to_buy} more")
+print(vehicles.items())
+print(vehicles.get("A7")) # returns the value for a specific key if it exists
+print(vehicles.get("clio","Nope")) # or the default value you pass as the second parameter if it doesnt
+vehicles.setdefault("Clio", "Back again!") # set default returns the value of a key if the key exists, if not then it creates the pair and assigns the default value you pass in
+print(vehicles.get("Clio"))
+# the difference is that setdefulat will actually create the key value pair in the dictionary, whereas get only
+# checks and returns a value
+
+# dictionary keys must be hashable values
+# mutable types may not be used as keys, you can use an int or string or tuple as a key
+
+d = {0 : "Zero",
+     1 : "One",
+     2 : "Two",
+     3 : "Three"
+     }
+
+# the python dictionary type is called dict
+# dict is also the dictionary class
+
+new_dict = dict.fromkeys(d,0) # the keys for this new dictionary come from the iterable called d which we passed to
+# the dict object with the fromkeys() method, we have made all the values 0
+print(new_dict)
+# we can also print just the keys, or just the values
+print(d.keys())
+# remember that an iterable is an object capable of returning its members one at a time, e.g. when running through a
+# for loop. Examples of iterables include all sequence types (such as list, str, and tuple) Also some non-sequence
+# types like dict, file objects, and objects of any classes you define with an __iter__() method or with a
+# __getitem__() method that implements sequence semantics are iterables.
+
+# remember that dictionary keys are unique, the same dictionary key cannot appear more than once in a dictionary
+b = {4 : "Four",
+     5 : "Five",
+     6 : "Six"
+     }
+d.update(b) # update one dictionary to include the key/value pairs from the other one
+# this will also update any old keys with new values if we have changed them
+print(d)
+# the objects returned by dict.keys(), values() and items() are view objects, they provide a dynamic view on
+# the dictionaries entries. When the dictionary changes, these views also change
+d[10] = "Ten"
+v = d.values()
+print(v)
+print("Four" in v) # checking if a value exists in the dictionary by using the value view
+
+# a smart way to loop through a dictionary
+for key, value in d.items():
+    print(f"{key} is mapped to {value}")
+# the above can also be useful when we're looking for keys or values, as we don#t need to make copies of the keys or values
+# which would be inefficient for large dictionaries
