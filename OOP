@@ -1,0 +1,129 @@
+import datetime
+import pytz
+
+# everything in python is an object, even integers and other data types
+a = 5
+b = 9
+print(a.__add__(b))  # use the add method of the int object
+
+
+class Kettle(object):  # remember the class is a template from which objects are created
+
+    power_source = "electricity"  # this data member is the same for all classes
+
+    # not defined or assigned to in constructor
+
+    def __init__(self, price, make):  # include the variables that will be bound to the instance of the class
+        self.make = make
+        self.price = price
+        self.on = False
+
+    def switch_on(self):  # add the member function
+        self.on = True
+
+    def switch_off(self):
+        self.on = False
+
+
+# self is a reference to the instance of the class
+# it should be used as a parameter for every class method, including the constructor
+
+# the __init__ method is the constructor for every class, its first argument is always self
+
+# lets instantiate a kettle
+
+kenwood = Kettle(8.99, "Kenwood")  # instantiated an instance of the kettle class
+print(kenwood.make)
+print(f"I want a kettle that is a {kenwood.make} for £{kenwood.price}")
+
+# remember that an object is an instance of a class
+# method is a function defined in a class
+# attributes are data members and method of a class, such as make or price or switch_on above
+
+# let's turn the kettle on
+kenwood.switch_on()
+print(kenwood.on)  # becomes true
+
+# because self is included in the constructor of the class and in every member function,
+# we can actually call a member function by using the class itself and passing an object as the self param
+
+Kettle.switch_off(kenwood)  # pass the object as the self argument to the kettle method
+print(kenwood.on)  # becomes false
+
+# in python, classes are dynamic, like everything else, and can be changed after they're instantiated
+
+print('*' * 20)
+
+kenwood.power = 1.5  # we've now created a new member variable that is bound to the kenwood
+# instance of the Kettle class, called it power and assigned to it
+print(kenwood.power)
+
+# this power variable is only instantiated and assigned to the kenwood instance, not to any other Kettle object
+# creating a subclass may be preferable to this
+
+print(Kettle.power_source)
+print(kenwood.power_source)  # same for all instances
+
+
+# python will first check to see if power_source exists in the instance namespace
+# if not, then it takes the value in the class definition
+
+# lets create a class for a bank account
+
+class Account:
+    """ simple account with balance"""
+
+# static method
+    @staticmethod  # this is an annotation, put this before a static method, then we don't need self
+    def _current_time(): # the underscore makes it clear that this is not meant to be used outside of the class
+        # ide has detected that since the self parameter is not used in the method body, the method can be made static
+        utc_time = datetime.datetime.utcnow()
+        return pytz.utc.localize(utc_time)
+# static method is shared by every instance of the class, they do not act wrt an object of the class
+
+    def __init__(self, name, balance):
+        self.name = name
+        self.balance = balance  # assign the attributes
+        self.transaction_list = []  # a list of transactions
+        print(f"account created for {self.name}")
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            self.show_balance()
+            self.transaction_list.append((Account._current_time(), amount))  # append the transaction details to the list
+
+    def withdrawl(self, amount):
+        if amount > 0 and amount <= self.balance:
+            self.balance -= amount
+            self.show_balance()
+            self.transaction_list.append((Account._current_time(), -amount))
+        else:
+            print("error, invalid withdrawl operation")
+
+    def show_balance(self):
+        print(f"balance is {self.balance}") # whenever we refer to the attributes, we have to use self
+        # we cant omit self unlike with C++
+
+    def show_transactions(self):
+        for date, amount in self.transaction_list:
+            if amount > 0:
+                tran_type = "deposited"
+            else:
+                tran_type = "withdrawn"
+                amount *= -1
+            print(f"{amount} {tran_type} on {date} {date.astimezone()}")
+
+
+# the init method is not quite a constructor
+# the first method to be called when a class object is created is new(), this creates the object
+# the init method then customises the instance, providing the data in the init method
+print()
+
+Asad = Account("Asad",0)
+Asad.deposit(1000)
+Asad.withdrawl(200)
+
+Asad.withdrawl(2000)
+Asad.show_transactions()
+
