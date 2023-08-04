@@ -81,32 +81,34 @@ class Account:
         return pytz.utc.localize(utc_time)
 # static method is shared by every instance of the class, they do not act wrt an object of the class
 
-    def __init__(self, name, balance):
-        self.name = name
-        self.balance = balance  # assign the attributes
-        self.transaction_list = []  # a list of transactions
-        print(f"account created for {self.name}")
+    def __init__(self, name, balance):  # since these shouldnt be changed by anything external to the class should begin with an _
+        self.__name = name  # remember that starting a variable with double underscores invokes name mangling
+        # because this variable starts wth double underscore, it will automatically be created with the name of the class prepending it
+        # this is useful because it prevents it being called accidentally, as you'd purposefully have to prepend the class name to access and change the variable
+        self._balance = balance  # assign the attributes
+        self._transaction_list = [(Account._current_time(), balance)]  # a list of transactions, brackets because there's one entry as a tuple
+        print(f"account created for {self.__name}")
 
     def deposit(self, amount):
         if amount > 0:
-            self.balance += amount
+            self._balance += amount
             self.show_balance()
-            self.transaction_list.append((Account._current_time(), amount))  # append the transaction details to the list
+            self._transaction_list.append((Account._current_time(), amount))  # append the transaction details to the list
 
     def withdrawl(self, amount):
-        if amount > 0 and amount <= self.balance:
-            self.balance -= amount
+        if amount > 0 and amount <= self._balance:
+            self._balance -= amount
             self.show_balance()
-            self.transaction_list.append((Account._current_time(), -amount))
+            self._transaction_list.append((Account._current_time(), -amount))
         else:
             print("error, invalid withdrawl operation")
 
     def show_balance(self):
-        print(f"balance is {self.balance}") # whenever we refer to the attributes, we have to use self
+        print(f"balance is {self._balance}") # whenever we refer to the attributes, we have to use self
         # we cant omit self unlike with C++
 
     def show_transactions(self):
-        for date, amount in self.transaction_list:
+        for date, amount in self._transaction_list:
             if amount > 0:
                 tran_type = "deposited"
             else:
@@ -120,10 +122,23 @@ class Account:
 # the init method then customises the instance, providing the data in the init method
 print()
 
-Asad = Account("Asad",0)
-Asad.deposit(1000)
-Asad.withdrawl(200)
+if __name__ == '__main__':
 
-Asad.withdrawl(2000)
-Asad.show_transactions()
+    Asad = Account("Asad",0)
+    Asad.deposit(1000)
+    Asad.withdrawl(200)
 
+    Asad.withdrawl(2000)
+    Asad.show_transactions()
+
+    Aisha = Account("Aisha",100)
+    Aisha.deposit(200)
+    Aisha.withdrawl(150)
+    Aisha.show_transactions()
+
+    #print(Asad.__name)  # throws and error! remmember that this name has been mangled, so Asad.__name doesnt exist, but _Account__name does!
+    print(Asad.__dict__)  # we can see _Account__name is a variable
+
+    # however we can get around this by accesing the variable by including the class the name directly
+    Asad._Account__name = "Not Asad"   # kind of pointless
+    print(Asad._Account__name)  # changed
