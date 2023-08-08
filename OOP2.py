@@ -35,7 +35,7 @@ class Album:
         self.year = year
 
         if artist is None:  # we can have logic branches in init method, artist here references the argument literal, not the member variable, hence no self
-            self.artist = "Various"
+            self.artist = "Various"  # just a string, not an object
         else:
             self.artist = artist
         self.tracks = []  # create an empty list as a member variable
@@ -65,6 +65,8 @@ class Artist:
     # this can cause an issue with garbage collection, the runtime system removed memory for objects when they're no longer being referred to
     # as an example, if the program is no longer using the album associated with an artist, it cant reclaim the memory used by the album object
     # because it's still being referred to by the artists list of albums, this is circular referencing
+    # we can avoid this by only storing strings of artists in the song class, and the name of the artist in the album class
+    # then there is no need to store the objects themselves, since we can make use of the find_object() function
 
     def add_song(self, name, year, title):
         """ Add a new song to the collection of albums
@@ -73,7 +75,7 @@ class Artist:
         album_found = find_object(name, self.albums)
         if album_found is None:  # if the album does not exist
             print(name + " not found")
-            album_found = Album(name, year, self)
+            album_found = Album(name, year, self.name)
             self.add_album(album_found)
         else:
             print("Found album " + name)
@@ -87,7 +89,7 @@ def find_object(field, object_list):
     for object in object_list:
         if object.name == field:
             return object
-    return None  # if it doesnt exist in the list
+    return None  # if it doesn't exist in the list
 
 
 def load_data():
@@ -165,6 +167,10 @@ def OOP_load_data():
             new_artist.add_song(album_field,year_field,song_field)
 
     return artist_list
+
+
+
+
 
 
 
