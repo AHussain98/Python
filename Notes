@@ -87,3 +87,150 @@ to hold an additional space to specify the type that adds overhead
 
 Like many other popular programming languages, strings in Python are arrays of bytes representing unicode characters. 
 However, Python does not have a character data type, a single character is simply a string with a length of 1.
+
+python data is strongly typed and dynamically typed, so you cant add a string to a int, but you dont need to declare data types of variables
+in python, we can use single quotes or double quotes to enclose strings
+in python, all functions return a value
+variable assignment is done using the equals symbol, anything on the right of the symbol gets executed first and then the assignmnet happens
+you can multiple strings buy ints in python, such as when printing them multiple times
+input function returns a string by default
+try not to use keywords in filenames, this can cause errors
+python is case sensitive
+python doesnt have a case/switch statement functionality built in
+
+Python is a widely-used general-purpose, high-level programming language. It was created by Guido van Rossum in 1991 and further developed by the Python Software Foundation. It was designed with an emphasis on code readability, and its syntax allows programmers to express their concepts in fewer lines of code.
+The following are the benefits of using Python language:
+
+Object-Oriented Language
+High-Level Language
+Dynamically Typed language
+Extensive support Libraries
+Presence of third-party modules
+Open source and community development
+Portable and Interactive
+Portable across Operating systems
+
+Actually, Python is a partially compiled language and partially interpreted language. The compilation part is done first when we execute our code and this will generate byte code internally this byte code gets converted by the Python virtual machine(p.v.m) according to the underlying platform(machine+operating system).
+
+Mutable data types can be edited i.e., they can change at runtime. Eg – List, Dictionary, etc.
+Immutable data types can not be edited i.e., they can not change at runtime. Eg – String, Tuple, etc.
+
+Everything in Python is an object and all variables hold references to the objects. The reference values are according to the functions; as a result, you cannot change the value of the references. However, you can change the objects if it is mutable.
+
+The set is an unordered collection of data types that is iterable, mutable and has no duplicate elements.
+A dictionary in Python is an unordered collection of data values, used to store data values like a map.
+
+Pass means performing no operation or in other words, it is a placeholder in the compound statement, where there should be a blank left and nothing has to be written there.
+
+// represents floor division whereas / represents precise division. For Example:
+
+5//2 = 2
+5/2 = 2.5
+
+There are 3 main keywords i.e. try, except, and finally which are used to catch exceptions and handle the recovering mechanism accordingly. Try is the block of a code that is monitored for errors. Except block gets executed when an error occurs.
+
+The beauty of the final block is to execute the code after trying for an error. This block gets executed irrespective of whether an error occurred or not. Finally, block is used to do the required cleanup activities of objects/variables.
+
+Several arguments can be passed to a function, including objects, variables (of the same or distinct data types), and functions. Functions can be passed as parameters to other functions because they are objects. Higher-order functions are functions that can take other functions as arguments.
+
+To pass a variable number of arguments to a function in Python, use the special syntax *args and **kwargs in the function specification. It is used to pass a variable-length, keyword-free argument list. By using the *, the variable we associate with the * becomes iterable, allowing you to do operations on it such as iterating over it and using higher-order operations like map and filter.
+
+The location where we can find a variable and also access it if required is called the scope of a variable.
+
+Python Local variable: Local variables are those that are initialized within a function and are unique to that function. It cannot be accessed outside of the function.
+Python Global variables: Global variables are the ones that are defined and declared outside any function and are not specified to any function.
+Module-level scope: It refers to the global objects of the current module accessible in the program.
+Outermost scope: It refers to any built-in names that the program can call. The name referenced is located last among the objects in this scope.
+
+Typed languages are the languages in which we define the type of data type and it will be known by the machine at the compile-time or at runtime. Typed languages can be classified into two categories:
+
+Statically typed languages: In this type of language, the data type of a variable is known at the compile time which means the programmer has to specify the data type of a variable at the time of its declaration.
+Dynamically typed languages: These are the languages that do not require any pre-defined data type for any variable as it is interpreted at runtime by the machine itself. In these languages, interpreters assign the data type to a variable at runtime depending on its value.
+
+The following are the standard or built-in data types in Python:
+
+Numeric: The numeric data type in Python represents the data that has a numeric value. A numeric value can be an integer, a floating number, a Boolean, or even a complex number.
+Sequence Type: The sequence Data Type in Python is the ordered collection of similar or different data types. There are several sequence types in Python:
+Python String
+Python List
+Python Tuple
+Python range
+Mapping Types: In Python, hashable data can be mapped to random objects using a mapping object. There is currently only one common mapping type, the dictionary, and mapping objects are mutable.
+Python Dictionary
+Set Types: In Python, a Set is an unordered collection of data types that is iterable, mutable, and has no duplicate elements. The order of elements in a set is undefined though it may consist of various elements.
+
+Python uses its private heap space to manage the memory. Basically, all the objects and data structures are stored in the private heap space. Even the programmer can not access this private space as the interpreter takes care of this space. Python also has an inbuilt garbage collector, which recycles all the unused memory and frees the memory and makes it available to the heap space.
+
+In Python, iterators are used to iterate a group of elements, containers like a list. Iterators are collections of items, and they can be a list, tuples, or a dictionary. Python iterator implements __itr__ and the next() method to iterate the stored elements. We generally use loops to iterate over the collections (list, tuple) in Python.
+In Python, the generator is a way that specifies how to implement iterators. It is a normal function except that it yields expression in the function. It does not implement __itr__ and next() method and reduces other overheads as well.
+If a function contains at least a yield statement, it becomes a generator. The yield keyword pauses the current execution by saving its states and then resumes from the same when required.
+
+The Pickle module accepts any Python object and converts it into a string representation and dumps it into a file by using the dump function, this process is called pickling. While the process of retrieving original Python objects from the stored string representation is called unpickling.
+
+Equivalent to constructors in OOP terminology, __init__ is a reserved method in Python classes. The __init__ method is called automatically whenever a new object is initiated. This method allocates memory to the new object as soon as it is created. This method can also be used to initialize variables.
+
+Python is an interpreted language. That means that, unlike languages like C and its variants, Python does not need to be compiled before it is run. Other interpreted languages include PHP and Ruby.
+Python is dynamically typed, this means that you don’t need to state the types of variables when you declare them or anything like that. You can do things like x=111 and then x="I'm a string" without error
+Python is well suited to object orientated programming in that it allows the definition of classes along with composition and inheritance. Python does not have access specifiers (like C++’s public, private).
+In Python, functions are first-class objects. This means that they can be assigned to variables, returned from other functions and passed into functions. Classes are also first class objects
+Writing Python code is quick but running it is often slower than compiled languages. Fortunately，Python allows the inclusion of C-based extensions so bottlenecks can be optimized away and often are. The numpy package is a good example of this, it’s really quite quick because a lot of the number-crunching it does isn’t actually done by Python
+Python finds use in many spheres – web applications, automation, scientific modeling, big data applications and many more. It’s also often used as “glue” code to get other languages and components to play nice.
+
+An interpreted language is any programming language which is not in machine-level code before runtime. Therefore, Python is an interpreted language.
+
+Decorators are used to add some design patterns to a function without changing its structure. Decorators generally are defined before the function they are enhancing. To apply a decorator we first define the decorator function. Then we write the function it is applied to and simply add the decorator function above the function it has to be applied to. For this, we use the @ symbol before the decorator.
+
+The .py files are the python source code files. While the .pyc files contain the bytecode of the python files. .pyc files are created when the code is imported from some other source. The interpreter converts the source .py files to .pyc files which helps by saving time.
+
+ A literal in python source code represents a fixed value for primitive data types. There are 5 types of literals in python-
+
+String literals– A string literal is created by assigning some text enclosed in single or double quotes to a variable. To create multiline literals, assign the multiline text enclosed in triple quotes. Eg.name=”Tanya”
+A character literal– It is created by assigning a single character enclosed in double quotes. Eg. a=’t’
+Numeric literals include numeric values that can be either integer, floating point value, or a complex number. Eg. a=50
+Boolean literals– These can be 2 values- either True or False.
+Literal Collections– These are of 4 types-
+a) List collections-Eg. a=[1,2,3,’Amit’]
+
+             b) Tuple literals- Eg. a=(5,6,7,8)
+
+c) Dictionary literals- Eg. dict={1: ’apple’, 2: ’mango, 3: ’banana`’}
+
+d) Set literals- Eg. {“Tanya”, “Rohit”, “Mohan”}
+
+6. Special literal- Python has 1 special literal None which is used to return a null variable.
+
+ The new features in Python 3.9.0.0 version are-
+
+ New Dictionary functions Merge(|) and Update(|=)
+New String Methods to Remove Prefixes and Suffixes
+Type Hinting Generics in Standard Collections
+New Parser based on PEG rather than LL1
+New modules like zoneinfo and graphlib
+Improved Modules like ast, asyncio, etc.
+Optimizations such as optimized idiom for assignment, signal handling, optimized python built ins, etc.
+Deprecated functions and commands such as deprecated parser and symbol modules, deprecated functions, etc.
+Removal of erroneous methods, functions, etc.
+
+Python modules are files containing Python code. This code can either be functions classes or variables. A Python module is a .py file containing executable code.
+
+Some of the commonly used built-in modules are:
+
+os
+sys
+math
+random
+data time
+JSON
+
+Type conversion refers to the conversion of one data type into another.
+
+int() – converts any data type into integer type
+
+float() – converts any data type into float type
+
+Break	Allows loop termination when some condition is met and the control is transferred to the next statement.
+Continue	Allows skipping some part of a loop when some specific condition is met and the control is transferred to the beginning of the loop
+Pass	Used when you need some block of code syntactically, but you want to skip its execution. This is basically a null operation. Nothing happens when this is executed.
+
+Help() function: The help() function is used to display the documentation string and also facilitates you to see the help related to modules, keywords, attributes, etc.
+Dir() function: The dir() function is used to display the defined symbols.
