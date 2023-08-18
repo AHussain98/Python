@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 numbers = [1,2,3,4,5,6]
 squares = []
 for number in numbers:
@@ -63,3 +65,44 @@ for nested_meals in [[(burger, topping) for topping in toppings] for burger in b
 
 for nested_meals in [(burger, topping) for topping in toppings for burger in burgers]:  # not nested, all burgers with all toppings
     print(nested_meals)
+
+# The map() function executes a specified function for each item in an iterable. The item is sent to the function as a parameter.
+map_capitals = list(map(str.upper, text.split(' ')))  # remember that when you pass a function as an argument, you don't include the parenthesis, so it's just upper here
+# when you use parenthesis, you pass the result of calling the function, but we want to pass the function itself
+# passing the name of the function without parenthesis is called passing a reference to the function
+print(map_capitals)  # str.upper called on every item in text.split(), and we've turned this into a list
+# comprehensions are preferred to maps as they're easier to read, and faster in some cases
+
+# The filter() function returns an iterator where the items are filtered through a function to test if the item is accepted or not.
+# filters are again slower than comprehensions due to overhead caused by function calls
+
+# reduce() takes a function and a sequence and reduces the sequence to a single value by repeatedly calling the function
+# this is in the functools module
+
+# the timeit module lets us test how long certain functions take to execute by passing a reference to the function and a number of times to execute to the timeit object
+
+# every comprehension can be rewritten as a loop, but the reverse is not true
+# you can't replace the reduce function with a comprehension, for example
+
+# any and all are functions that take in an iterable and return true or false depending on the truthyness of the values in the iterable
+
+entries = [1,2,3,4,5]
+entries_with_zero = [0,1,2,3,4,5]
+print(all(entries))  # returns true
+print(all(entries_with_zero))  # false, as there's a zero which evaluates as false
+print(any(entries_with_zero))  # will be true
+
+# empty data structres and types set to 0 will also be evaluated as false, e.g. empty string, empty list, set etc...
+# all will return true with an empty object however, so be wary of that
+# you can combine any and all with comprehensions, so have comprehensions within the any/all functions
+
+print(any(num for num in entries if num % 2 == 0))  # returns true as some are even
+
+# you can also create named tuples, which are a subclass of tuples used to create tuples with a name as a skeleton
+Plant = namedtuple('Plant', ['name', 'type', 'origin'])     # so the tuple is called Plant, and the returned object we get is the first field, which is Plant
+andromeda = Plant('andromeda', 'pretty', 'Europe')  # a created named tuple
+japanese_knotweed = Plant('japanese_knotweed', 'not good', 'Japan')
+
+print(japanese_knotweed.type)  # now we don't need to remember the index for particular fields, we can refer to them by name
+
+print(type(andromeda))  # Plant type
