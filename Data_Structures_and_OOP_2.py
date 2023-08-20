@@ -157,3 +157,90 @@ print(desc_nums)
 
 my_dict = sorted(my_dict, key=lambda myset: myset[0])
 print(my_dict)  # now age comes before name
+
+# encapsulation -> we can group variables, functions and behaviours into classes to contain amd organise their behaviour
+# the aim of encapsulation is to hide implementation details from the user
+# using private variables is one way to do this, but there are no private variables in python
+
+class Person():
+
+    gender = 'male'  # class variable, same for each by default nd shared among them
+    person_list = []  # shared amongst all instances
+
+    def __init__(self, name="Nobody"): # name member variable given a default value
+        self.name = name  # instance variable
+        # if we created person_list in here, it would be an instance variable
+
+    def add_person(self, person):
+        self.person_list.append(person)
+
+# remember that the init function constructor is called automatically upon instantiation
+# self is a reference to the instance of the Person class, this can be renamed
+# we can access the instance related variables via self
+
+p = Person()  # instantiate a class with default constructor
+# you can also use keyword arguments when instantiating a class
+print(p.name)
+
+# class variables are variables and values that are shared by all object instances of the given class, the class owns the variable
+# instance variables are owned by the instance of the class. The value of these can vary depending on the instance
+# so name above is an instance variable as the name attribute will be different for different objects
+# the gender variable declared in the global namespace is like pythons idea of a static, its the same for all objects of the class by default
+# though we can change it directly if we wanted
+
+p.add_person('Nobody')
+p2 = Person('Asad')
+print(p2.person_list)  # nobody is added to the person list we access via p2, which shows that its shared
+
+# instance variables are initialised in the constructor
+# class variables are initialised outside of the constructor block
+
+# there are no private variables in python so we cannot encapsulate in the traditional sense
+#  an underscored variables notifies the programmer that the given variable is private and should not be modified outside the class
+# the double underscore invokes name mangling, this is how python invokes private variables
+
+class test:
+
+    def __init__(self, name):
+        self.name = name
+
+    _color = 'green'  # naming convention, means private
+    __colour = 'green'  # double underscore, name mangled, this is then renamed _test__colour
+
+    def show_name(self):
+        print(self.name)
+
+
+p = test('Asad')
+print(p._color) # accessible
+print(p._test__colour)  # valid
+
+
+class new_test(test):  # new_test inherits from test
+
+    def __init__(self, name, age):
+        super().__init__(name)  # use the super keyword to call the constructor of the parent class in the constructor of the child class
+        self.age = age
+    # method overriding, polymorphism in python, as there is no such thing as overloading in python
+    def show_name(self):
+        print('this is the subclass name: ' + self.name)
+
+    def __eq__(self, other):  # equality override
+        return self.age == other.age  # objects can only be considered the same if they have the same age value
+
+
+t2 = new_test('Asad', 25)
+print(t2._color)  # can access the parents data
+t2.show_name()
+
+# an example of polymorphism without inheritance is the len() function
+# this calculates the size of different objects such as lists, strings and dicts
+
+# if you want to change the equality characteristics of a class, define the __eq__ function within it
+# then we can chnage the conditions for class objects to be considered equal
+t3 = new_test('Aisha', 25)
+print(t2 == t3)  # returns true based on the eq method defined in the class
+# we can do the same thing for all the comparison operators
+
+# The == operator compares the value or equality of two objects, whereas the Python is operator checks whether two variables point to the same object in memory.
+# In the vast majority of cases, this means you should use the equality operators == and !=
