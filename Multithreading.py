@@ -41,9 +41,9 @@ print(threading.current_thread().name)  # main thread
 # so the main thread runs all these commands sequentially
 # all other threads are created by the main thread (also known as the application thread)
 
-def count_operation():
-    for i in range(100):
-        print(threading.current_thread().name + str(i))
+def count_operation(x=100):
+    for i in range(x):
+        print(threading.current_thread().name + ' ' + str(i))
 # sequential execution
 count_operation() # main thread executes these sequentially
 count_operation()  # this method call is executed as soon as the above one is finished
@@ -82,3 +82,111 @@ tc2.start()  # we have achieved inherited multithreading
 # both threads will run concurrently with the help of timeslicing
 # python will run the first thread for a short amount of time, then the 2nd, then the first again etc...
 # pythons GIL prevents more than one thread executing bytecode at one time
+
+print('Main thread will still print this in between tc and tc2!')  # gets printed in main threads next time slice, not after the above 2 are finished
+
+# remember that the main thread creates the other threads
+# but the main thread keeps on executing in a sequential manner, it will get its own time slices as well as the threads it created
+# using the join() function, we can wait for threads to finish execution
+# so we can block the main thread until the other threads are finished
+t1.start()
+# t1.join()  # join function forces main thread to wait for given thread to complete execution
+
+t2.start()
+t1.join()  # join function forces main thread to wait for given thread to complete execution
+
+t2.join()
+print('Main thread will now execute this after the above 2 are done!')
+# join function blocks the calling threads execution (main thread in this case) until completion of the joined thread
+
+# we can also pass parameters to the thread object by adding args=
+
+t3 = threading.Thread(target=count_operation, name='Thread #3', args=(10,))  # remember to add the brackets and comma because we're passing a tuple
+# args=10 would process 10 as a string
+
+t3.start()
+
+### In the theoretical section, we have considered processes and threads. Threads are light-weight processes running within a given process. So multiple threads may belong to the same process.
+
+# By the way this is why synchronization is needed because these threads are using the same resources of the same process - such as memory.
+#
+# Let's create 5 threads and then let's see the process which they belong to. This is why we need to import os (stands for operating system) module to be able to get the PID (Process ID) associated with the threads.
+#
+# from threading import Thread
+# import os
+#
+#
+# class Counter(Thread):
+#
+#     def __init__(self, name):
+#         Thread.__init__(self)
+#         self.name = name
+#
+#     def run(self):
+#         for i in range(10):
+#             print('%s is running and belongs to process with ID  %s' % (self.name, str(os.getpid())))
+#
+#
+# t1 = Counter('Thread #1')
+# t2 = Counter('Thread #2')
+# t3 = Counter('Thread #3')
+# t4 = Counter('Thread #4')
+# t5 = Counter('Thread #5')
+#
+# t1.start()
+# t2.start()
+# t3.start()
+# t4.start()
+# t5.start()
+# And the result is that all the threads share the same process. Which means that all of these threads have the same Process ID (PID).
+#
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #1 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #2 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #3 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #4 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
+# Thread #5 is running and belongs to process with ID  1788
