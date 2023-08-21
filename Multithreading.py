@@ -190,3 +190,33 @@ t3.start()
 # Thread #5 is running and belongs to process with ID  1788
 # Thread #5 is running and belongs to process with ID  1788
 # Thread #5 is running and belongs to process with ID  1788
+
+# a thread in python can be either a daemon thread or a standard worker thread
+# when a python program starts then one thread begins running immediately (main thread)
+# we can create child threads from the main thread. The main thread is the last thread to
+# finish execution because it performs various shutdown operations
+# daemon threads are intended as helper threads ( for example garbage collection)
+
+# so when we run an application, the virtual machine starts the main thread (which we can use to create child treads) and kicks off daemon threads to run in the background
+
+# we are able to create daemon threads directly aswell
+# daemon threads are low priority threads that run in the background to perform tasks like garbage collection
+# usually we create daemon threads for i/o operations or connecting to other applications, downloading data etc...
+# daemon threads are terminated by the pvm when all other worker threads are terminated (finish execution)
+# this is the main difference, worker threads are not terminated by the pvm while deamon threads are
+
+def daemon_operation():
+
+    while True:
+        print('this is a daemon thread!')
+
+dt = threading.Thread(target=daemon_operation, name='dt', daemon=True) # create a daemon thread
+
+dt.start()  # even though the daemon thread is running an infinite loop, the pvm will terminate it when there are no more normal threads running
+
+print(' this is printed by the main thread')
+
+# threads (of the same process) run in shared memory space while processes run in seperate memory spaces
+# every thread has its own stack memory but all threads share the heap memory
+# the main purpose of synchronization is the sharing of resources without interference using mutual exclusion
+# we talk about locking because we need to manage the fact that the treads share the heap memory
