@@ -48,7 +48,21 @@
 # Any task that tries to get a speed boost from parallel execution, using pure Python code, will not see a speed-up as threaded Python code is locked to one thread executing at a time. 
 # If you mix in C extensions and I/O, however (such as PIL or numpy operations) and any C code can run in parallel with one active Python thread.
 
-Python threading is great for creating a responsive GUI, or for handling multiple short web requests where I/O is the bottleneck more than the Python code. It is not suitable for parallelizing computationally intensive Python code, stick to the multiprocessing module for such tasks or delegate to a dedicated external library.
+# Python threading is great for creating a responsive GUI, or for handling multiple short web requests where I/O is the bottleneck more than the Python code. 
+# It is not suitable for parallelizing computationally intensive Python code, stick to the multiprocessing module for such tasks or delegate to a dedicated external library.
+
+# The biggest problem in multithreading in CPython is the Global Interpreter Lock (GIL) (note that other Python implementations don't necessarily share this problem!)
+
+# The GIL is an implementation detail that effectively prevents parallel (simultaneous) execution of separate threads in Python. 
+# The problem is that whenever Python byte code is to be executed, then the current thread must have acquired the GIL and only a single thread can have the GIL at any given moment.
+
+# So if 5 threads are trying to execute some Python byte code, then they will effectively run interleaved, because each one will have to wait for the GIL to become available.
+# This is not usually a problem with single-core computers, as the physical constraints have the same effect: only a single thread can run at a time.
+
+# In multi-core/SMP computers, however this becomes a bottleneck. These days almost everthing is running on multiple cores, including effectively all smartphones and even many embedded systems.
+
+# c++ has no such restrictions, so multiple threads can execute at the exact same time.
+
 # import threading
 #
 # print(threading.current_thread().name)  # main thread
