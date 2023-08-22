@@ -34,35 +34,6 @@
 # of the current thread and load the data of the other thread aswell
 # its very expensive to switch between threads, so using multiple threads for small problems is not always performant
 
-# The GIL does not prevent threading. 
-# All the GIL does is make sure only one thread is executing Python code at a time; control still switches between threads.
-
-# What the GIL prevents then, is making use of more than one CPU core or separate CPUs to run threads in parallel.
-# This only applies to Python code. C extensions can and do release the GIL to allow multiple threads of C code and one Python thread to run across multiple cores.
-# This extends to I/O controlled by the kernel, such as select() calls for socket reads and writes, making Python handle network events reasonably efficiently in a multi-threaded multi-core setup.
-
-# What many server deployments then do, is run more than one Python process, to let the OS handle the scheduling between processes to utilize your CPU cores to the max.
-# You can also use the multiprocessing library to handle parallel processing across multiple processes from one codebase and parent process, if that suits your use cases.
-
-# Note that the GIL is only applicable to the CPython implementation; Jython and IronPython use a different threading implementation (the native Java VM and .NET common runtime threads respectively).
-# Any task that tries to get a speed boost from parallel execution, using pure Python code, will not see a speed-up as threaded Python code is locked to one thread executing at a time. 
-# If you mix in C extensions and I/O, however (such as PIL or numpy operations) and any C code can run in parallel with one active Python thread.
-
-# Python threading is great for creating a responsive GUI, or for handling multiple short web requests where I/O is the bottleneck more than the Python code. 
-# It is not suitable for parallelizing computationally intensive Python code, stick to the multiprocessing module for such tasks or delegate to a dedicated external library.
-
-# The biggest problem in multithreading in CPython is the Global Interpreter Lock (GIL) (note that other Python implementations don't necessarily share this problem!)
-
-# The GIL is an implementation detail that effectively prevents parallel (simultaneous) execution of separate threads in Python. 
-# The problem is that whenever Python byte code is to be executed, then the current thread must have acquired the GIL and only a single thread can have the GIL at any given moment.
-
-# So if 5 threads are trying to execute some Python byte code, then they will effectively run interleaved, because each one will have to wait for the GIL to become available.
-# This is not usually a problem with single-core computers, as the physical constraints have the same effect: only a single thread can run at a time.
-
-# In multi-core/SMP computers, however this becomes a bottleneck. These days almost everthing is running on multiple cores, including effectively all smartphones and even many embedded systems.
-
-# c++ has no such restrictions, so multiple threads can execute at the exact same time.
-
 # import threading
 #
 # print(threading.current_thread().name)  # main thread
@@ -249,29 +220,29 @@
 # every thread has its own stack memory but all threads share the heap memory
 # the main purpose of synchronization is the sharing of resources without interference using mutual exclusion
 # we talk about locking because we need to manage the fact that the treads share the heap memory
-import threading
-
-x = 0 # global variable
-
-def increment():
-    global x  # global variable
-
-    x = x + 1  # so increment the value of the x variable we defined in the global scope, this is the critical section
-
-def operation():
-    for _ in range(10000000):
-        increment()
-
-t4 = threading.Thread(target=operation, name='Thread #4')  # they both call this function to increment the heap object referenced by x
-t5 = threading.Thread(target=operation, name='Thread #5')
-
-t4.start()
-t5.start()
-
-t4.join()
-t5.join()
-
-print(' the value of x now is ' + str(x))  # the value of x is 2 million, but only sometimes
+# import threading
+#
+# x = 0 # global variable
+#
+# def increment():
+#     global x  # global variable
+#
+#     x = x + 1  # so increment the value of the x variable we defined in the global scope, this is the critical section
+#
+# def operation():
+#     for _ in range(10000000):
+#         increment()
+#
+# t4 = threading.Thread(target=operation, name='Thread #4')  # they both call this function to increment the heap object referenced by x
+# t5 = threading.Thread(target=operation, name='Thread #5')
+#
+# t4.start()
+# t5.start()
+#
+# t4.join()
+# t5.join()
+#
+# print(' the value of x now is ' + str(x))  # the value of x is 2 million, but only sometimes
 # this is because the threads are reading the value of x from heap memory, incrementing the value and writing the return value to heap memory
 # these increment operations take time
 # during an increment procedure, another thread may call the method with the original counter value, overwriting the value of x that was changed by the other thread
@@ -287,33 +258,33 @@ print(' the value of x now is ' + str(x))  # the value of x is 2 million, but on
 # the state of the variables and resources are non-deterministic (depends on the context switching of threads), so every time we rerun the application, the values will be different because the threads finish in different orders
 # synchronization and locks can deal with race conditions
 
-z = 0 # global variable
-lock = threading.Lock()  # instantiate the lock class
-# only a single thread may acquire the lock at a single time
-
-def l_increment():
-
-    global z  # global variable
-    lock.acquire()  # call the lock objects acquire method before the critical section, other threads will be in a 'blocked' state because they are waiting for the lock to be released
-    # when a lock is acquired, other threads must wait for it to be accessible again
-    z = z + 1  # so increment the value of the z variable we defined in the global scope, this is the critical section
-    lock.release()  # now release the critical section, other threads may now increment the value of x
-    # release can be called from any thread, not just the thread that acquired the lock
-
-def l_operation():
-    for _ in range(10000000):
-        l_increment()
-
-t6 = threading.Thread(target=l_operation, name='Thread #6')  # they both call this function to increment the heap object referenced by x
-t7 = threading.Thread(target=l_operation, name='Thread #7')
-
-t6.start()
-t7.start()
-
-t6.join()
-t7.join()
-
-print('this is z: ' + str(z))
+# z = 0 # global variable
+# lock = threading.Lock()  # instantiate the lock class
+# # only a single thread may acquire the lock at a single time
+#
+# def l_increment():
+#
+#     global z  # global variable
+#     lock.acquire()  # call the lock objects acquire method before the critical section, other threads will be in a 'blocked' state because they are waiting for the lock to be released
+#     # when a lock is acquired, other threads must wait for it to be accessible again
+#     z = z + 1  # so increment the value of the z variable we defined in the global scope, this is the critical section
+#     lock.release()  # now release the critical section, other threads may now increment the value of x
+#     # release can be called from any thread, not just the thread that acquired the lock
+#
+# def l_operation():
+#     for _ in range(10000000):
+#         l_increment()
+#
+# t6 = threading.Thread(target=l_operation, name='Thread #6')  # they both call this function to increment the heap object referenced by x
+# t7 = threading.Thread(target=l_operation, name='Thread #7')
+#
+# t6.start()
+# t7.start()
+#
+# t6.join()
+# t7.join()
+#
+# print('this is z: ' + str(z))
 
 # so every time a thread enters the l_increment function, it has to try to acquire the lock
 # if the lock has already been acquired, then the thread waits until the lock is released by default
@@ -344,36 +315,36 @@ print('this is z: ' + str(z))
 # standard locks cannot be acquired once they have already been acquired
 # so a lock object is not able to call the acquire function after it has already done so, without releasing first
 
-# however, this is not the case with re-entrant locks
-rlock = threading.RLock()  # rlock object
-
-rlock.acquire()
-rlock.acquire()  # called multiple times, this is acceptable
-print('finished with this operation')
-rlock.release()
-rlock.release()  # you have to call release as many times as you called lock
-
-class Test:
-
-    def __init__(self):
-        self.num1 = 1
-        self.num2 = 2
-        self.lock = threading.Rlock()
-
-    def increment_first(self):
-        with self.lock:   # this is the same as:
-            # try: self.lock.acquire()
-            # finally self.lock.release(),  its a thread safe way of incrementing num1
-            self.num1 += 1
-
-    def increment_second(self):
-        with self.lock:
-            self.num2 += 1
-
-    def increment_both(self):  # this is where we need re-entrant locks, because we may need to increment first while a lock has already acquired it
-        with self.lock:
-            self.increment_first()  # we can acquire the lock in increment_first() again with no issue because we are using re-entrant locks
-            self.increment_second()
+# # however, this is not the case with re-entrant locks
+# rlock = threading.RLock()  # rlock object
+#
+# rlock.acquire()
+# rlock.acquire()  # called multiple times, this is acceptable
+# print('finished with this operation')
+# rlock.release()
+# rlock.release()  # you have to call release as many times as you called lock
+#
+# class Test:
+#
+#     def __init__(self):
+#         self.num1 = 1
+#         self.num2 = 2
+#         self.lock = threading.Rlock()
+#
+#     def increment_first(self):
+#         with self.lock:   # this is the same as:
+#             # try: self.lock.acquire()
+#             # finally self.lock.release(),  its a thread safe way of incrementing num1
+#             self.num1 += 1
+#
+#     def increment_second(self):
+#         with self.lock:
+#             self.num2 += 1
+#
+#     def increment_both(self):  # this is where we need re-entrant locks, because we may need to increment first while a lock has already acquired it
+#         with self.lock:
+#             self.increment_first()  # we can acquire the lock in increment_first() again with no issue because we are using re-entrant locks
+#             self.increment_second()
 
 # deadlock occurs when threads are waiting for each other to release the lock
 # deadlock means two or more threads are waiting forever for a lock or resource held by another of the threads
@@ -400,21 +371,21 @@ class Test:
 # the semaphore count may be a useful trigger for a number of different events
 # producer-consumer problem can be solved and implemented with the help of a semaphore
 # semaphores control the number of threads that can perform or access a given action
-import time
-import random
-semaphore = threading.Semaphore(5)  # semaphore limit is 5
-operation_counter = 0
-
-def compute():
-    global operation_counter
-    semaphore.acquire() # whenever a given thread calls the semaphore acquire method, the semaphore checks that the counter value is greater than 0
-    # it will then decrease the limit by 1
-    # if the semaphore's internal counter value reaches 0, the given thread must wait for another thread to release their semaphore
-    operation_counter += 1
-    print(' total number of computations: ' + str(operation_counter))
-    time.sleep(random.randint(3,8))
-    semaphore.release() # semaphore then increments its internal counter
-    operation_counter -= 1
+# import time
+# import random
+# semaphore = threading.Semaphore(5)  # semaphore limit is 5
+# operation_counter = 0
+#
+# def compute():
+#     global operation_counter
+#     semaphore.acquire() # whenever a given thread calls the semaphore acquire method, the semaphore checks that the counter value is greater than 0
+#     # it will then decrease the limit by 1
+#     # if the semaphore's internal counter value reaches 0, the given thread must wait for another thread to release their semaphore
+#     operation_counter += 1
+#     print(' total number of computations: ' + str(operation_counter))
+#     time.sleep(random.randint(3,8))
+#     semaphore.release() # semaphore then increments its internal counter
+#     operation_counter -= 1
 
 # while True:
 #     time.sleep(0.1)
@@ -422,48 +393,48 @@ def compute():
 #     t.start()
 
 # we can communicate between threads using the Event object
-capacity = 5
-items = []
-event = threading.Event()  # instantiate the event object
-
-class Producer(threading.Thread):
-    def __init__(self, nums):
-        threading.Thread.__init__(self)
-        self.nums = nums
-
-    def run(self) -> None:
-
-        while True:
-            if len(self.nums) == capacity:
-                event.set() # sets the internal flag of the event object to be true
-                # all threads waiting for it to become true are awakened
-
-            if not event.is_set():
-                time.sleep(1)
-                self.nums.append(random.randint(1,100))
-                print('Producer: ' + str(self.nums) + '\n')
-
-class Consumer(threading.Thread):
-    def __init__(self, nums):
-        threading.Thread.__init__(self)
-        self.nums = nums
-
-    def run(self) -> None:
-
-        while True:
-            if len(self.nums) == 0:
-                event.clear() # resets the internal flag to false
-
-
-            if event.is_set():
-                time.sleep(1)
-                self.nums.pop() # remove the last item from the data structure
-                print('Consumer: ' + str(self.nums) + '\n')
-
-
-if __name__ == '__main__':
-    producer = Producer(items)
-    consumer = Consumer(items)
+# capacity = 5
+# items = []
+# event = threading.Event()  # instantiate the event object
+#
+# class Producer(threading.Thread):
+#     def __init__(self, nums):
+#         threading.Thread.__init__(self)
+#         self.nums = nums
+#
+#     def run(self) -> None:
+#
+#         while True:
+#             if len(self.nums) == capacity:
+#                 event.set() # sets the internal flag of the event object to be true
+#                 # all threads waiting for it to become true are awakened
+#
+#             if not event.is_set():
+#                 time.sleep(1)
+#                 self.nums.append(random.randint(1,100))
+#                 print('Producer: ' + str(self.nums) + '\n')
+#
+# class Consumer(threading.Thread):
+#     def __init__(self, nums):
+#         threading.Thread.__init__(self)
+#         self.nums = nums
+#
+#     def run(self) -> None:
+#
+#         while True:
+#             if len(self.nums) == 0:
+#                 event.clear() # resets the internal flag to false
+#
+#
+#             if event.is_set():
+#                 time.sleep(1)
+#                 self.nums.pop() # remove the last item from the data structure
+#                 print('Consumer: ' + str(self.nums) + '\n')
+#
+#
+# if __name__ == '__main__':
+#     producer = Producer(items)
+#     consumer = Consumer(items)
 
     # producer.start() # start fucntion executes the overrided run fucntion
     # consumer.start()
@@ -480,18 +451,35 @@ if __name__ == '__main__':
 # and if a given thread finishes execution, python can reuse it instead of a costly destroy and recreate operation
 
 from concurrent.futures import ThreadPoolExecutor
-executor = ThreadPoolExecutor(max_workers=4)
 
-def operation():
-    time.sleep(2)
-    print('operation is finished')
-
-executor.submit(operation) # because we have defined just one thread in the pool, this one thread is going to complete these operations one after another
-executor.submit(operation)
-executor.submit(operation)
-executor.submit(operation)
-executor.shutdown()  # makes sure the executor doesn't perform any more tasks
+import threading
+# executor = ThreadPoolExecutor(max_workers=4)
+#
+# def operation():
+#     time.sleep(2)
+#     print('operation is finished')
+#
+# executor.submit(operation) # because we have defined just one thread in the pool, this one thread is going to complete these operations one after another
+# executor.submit(operation)
+# executor.submit(operation)
+# executor.submit(operation)
+# executor.shutdown()  # makes sure the executor doesn't perform any more tasks
 # shutdown() also acts as the join() method, it waits for the threads to finish before teh main thread continues
 
 # if we have 4 workers and 4 tasks, these can be done simultaneously due to time slicing
 # the submit function executes a given operation on a distinct thread
+# we can create the thread pool executor with the with keyword so we dont have to bother shutting down
+
+nums = [1,2,3,4,5]
+
+def squares(x):
+
+    print(' the result: ' + str(x*x) + ' and via thread: ' + str(threading.current_thread()))
+
+with ThreadPoolExecutor(max_workers=5) as executor:
+  #  executor.map(squares, nums)  # map function takes a function and iterable
+    # will execute with a unique thread for each value in the iterable
+    # map function will do a sequential execution
+    for value in nums:
+        executor.submit(squares, value)
+
