@@ -483,3 +483,29 @@ with ThreadPoolExecutor(max_workers=5) as executor:
     for value in nums:
         executor.submit(squares, value)
 
+# when we use the standard sequential approach, the programming anguage executes the operations one after another
+# a multithreaded approach uses multiple threads but these threads are executed with the time slicing algorithm
+# multithreading is used to execute independent tasks without blocking other tasks
+
+# with parallel algorithms, we execute different tasks on different processors (or processor cores) simultaenously
+# paralellisation is used to speed up a given application
+# some problems are sequential by default and so we are not able to apply parallelisation
+
+# the aim of multithreading is not to speed up the application itself
+# if we want to reduce running time, we need to use paralellisation
+
+# paralellism -> no timeslicing, each processor given its own process to own and run
+
+# it depends on the operating system and hardware as to how the threads will be executed
+# if there is just one processor core, then the time slicing algorithm executes the threads (multithrading)
+# if there are multiple processor cores then the operating system may execute the threads in parallel
+
+# GIL is a mutex that protexts access to python objects
+# it prevents multiple threads from executing python bytecode at once
+# so prevents multithreaded applications from taking full advantage of multiprocessing systems
+# there is no real parallel computing in Python
+# we can use parallel processes but it is not as efficient as threads
+# this is because threads are lightweight processes
+# multiprocessing has higher overheads
+# switching between threads is expensive, switching between processes is even more expensive
+# 
