@@ -36,3 +36,30 @@ print(series.max())
 # remember that a series is how we can handle a 1d array of items efficiently
 
 # you can transfordm any kind of structure into a data frame, such as lists, dicts, numpy arrays, other data frames etc...
+
+df = pd.DataFrame([10,20,30,40,50])  # 1d data frame, better off being a series if its only 1d
+# data frames should be multiple columns
+print(df)
+print()
+
+df = pd.DataFrame([['Asad', 25], ['Aisha', 26]]) # a list containing lists
+print(df)
+
+# if you use a dict, the key defines the columns automatically
+# we can define the index of the dataframe by using the index= kwarg
+# we can add columns
+df['location'] = pd.Series(['London', 'Bournemouth'], index=[0,1])
+print(df)  # added locations
+
+# we can manipulate rows too via the index
+print()
+print(df.iloc[0])  # iloc for locking onto an integer, if the indexes are integers, loc[] if not
+# iloc is faster than loc
+# at() is faster still, iat() is the fastest of all
+# at() -> specify row and column, iat()-> specify integer row and column
+# iat is fastest because the others need to convert the string representation of your index into the integer version
+print(df.iat[1,1])  # integer representation of the row and column, so for second row and second column, iat[1,1] works
+
+# use the .read() function in pandas to read up a csv and transform it into a dataframe
+# head() to return the first 5 entries
+# info() to return info about the dataframe, such as number of entries
