@@ -263,5 +263,56 @@ def fibonacci_gen(num_items):
 # The array module efficiently stores primitive types like integers, floats, and charac‐
 # ters, but not complex numbers or classes. It creates a contiguous block of RAM to
 # hold the underlying data.
+# async def save_value(value):
+#     print(f"Saving {value} to database")
+#     db_response = await save_result_to_db(result)
+#     print("Response from database: {db_response}")
+
+#if __name__ == "__main__":
+#     eventloop.put(
+#         partial(save_value, "Hello World", print)
+#     )
+# In this case, save_result_to_db returns a Future type. 
+# By awaiting it, we ensure that save_value gets paused until the value is ready and then resumes and completes its operations.
+
+# The Future object returned by save_result_to_db holds the promise of a Future result, and doesn't hold the result itself or call any of the save_result_to_db code
+#  if we simply did db_response_future = save_result_to_db(result), the statement would complete immediately and we could do other things with the Future object. For example, we could collect a list of futures and wait for all of them at the same time.
+
+
+# an async function (defined with async def:) is called a coroutine
+# these are similar to generators
+# an await statement is similar in function to a yield 
+# statement; the execution of the current function gets paused while other code is run. Once
+# the await or yield resolves with data, the function is resumed. So in the preceding
+# example, our save_result_to_db will return a Future object, and the await 
+# statement pauses the function until that Future contains a result. The event loop is
+# responsible for scheduling the resumption of save_value after the Future is ready to return a result
+
+# create a HTTP scraper
+import asyncio
+import random
+import string
+from functools import partial
+
+from tornado.httpclient import AsyncHTTPClient  # Tornado library has its own version of an event loop
+
+# asyncio doesnt actually run on different threads, its just the one thread and core, just scheduling out functions so they return when they are useful
+
+# The syntax async def introduces either a native coroutine or an asynchronous generator. The expressions async with and async for are also valid, and you’ll see them later on.
+
+# The keyword await passes function control back to the event loop. 
+# (It suspends the execution of the surrounding coroutine.) 
+# If Python encounters an await f() expression in the scope of g(), this is how await tells the event loop, “Suspend execution of g() until whatever I’m waiting on—the result of f()—is returned. In the meantime, go let something else run.”
+
+# The multiprocessing module lets you use process- and thread-based parallel pro‐
+# cessing, share work over queues, and share data among processes. It is mostly focused
+# on single-machine multicore parallelism (there are better options for multimachine parallelism). 
+
+# threads in Python are OS-native (they’re not
+# simulated—they are actual operating system threads), they are bound by the GIL, so
+# only one thread may interact with Python objects at a time.
+# By using processes, we run a number of Python interpreters in parallel, each with a
+# private memory space with its own GIL, and each runs in series (so there’s no competition for each GIL). This is the easiest way to speed up a CPU-bound task in Python.
+
 
 # expert python programming, chapter 3,4,5,14,15,16
