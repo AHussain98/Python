@@ -314,5 +314,15 @@ from tornado.httpclient import AsyncHTTPClient  # Tornado library has its own ve
 # By using processes, we run a number of Python interpreters in parallel, each with a
 # private memory space with its own GIL, and each runs in series (so there’s no competition for each GIL). This is the easiest way to speed up a CPU-bound task in Python.
 
+#  threads in Python are OS-native (they’re not
+# simulated—they are actual operating system threads), they are bound by the GIL, so
+# only one thread may interact with Python objects at a time.
+# By using processes, we run a number of Python interpreters in parallel, each with a
+# private memory space with its own GIL, and each runs in series (so there’s no compe‐
+# tition for each GIL). This is the easiest way to speed up a CPU-bound task in Python.
+
+#  If we’re using threads,
+# each instruction is bound by the GIL, so although each thread could run on a sepa‐
+# rate CPU, it will execute only when no other threads are running.
 
 # expert python programming, chapter 3,4,5,14,15,16
