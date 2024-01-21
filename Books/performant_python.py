@@ -325,4 +325,57 @@ from tornado.httpclient import AsyncHTTPClient  # Tornado library has its own ve
 # each instruction is bound by the GIL, so although each thread could run on a sepa‐
 # rate CPU, it will execute only when no other threads are running.
 
-# expert python programming, chapter 3,4,5,14,15,16
+#  In Python 3, there is only one datatype capable of storing textual
+# information. It is str, or simply string. It is an immutable sequence that stores Unicode
+# code points.
+
+# strings are a immutable container type that only contains unicode text
+
+# Python strings are immutable. This is also true for byte sequences. This is an important fact,
+# because it has both advantages and disadvantages. It also affects the way strings should be
+# handled in Python efficiently. Thanks to immutability, strings can be used as dictionary
+# keys or set collection elements because, once initialized, they will never change their
+# value. On the other hand, whenever a modified string is required (even with only tiny
+# modification), a completely new instance needs to be created. Fortunately, bytearray, as a
+# mutable version of bytes, does not have such an issue. Byte arrays can be modified inplace (without creating new objects) through item assignments and can be dynamically
+# resized, exactly like lists – using appends, pops, inserts, and so on.
+
+# Use .join() instead of concatenating, its more efficient in most cases
+
+# lists are contigous arrays of references to other objects
+# every time an item is added or removed, the array is reallocated
+# Inserting an item at an arbitrary place using the list.insert method has complexity O(n)
+# Deleting an item using list.delete or using the del operator has complexity O(n)
+# append is O(1)
+
+list_1 = [1,2,3]
+list_1.insert(1,5)  # insert is O(N)
+print(list_1)
+
+# accessing or changing an element by index is O(1)
+# list comprehensions should be preferred over loops wherever possible
+
+# iterator is just an object that implements the iterator protocol, which means it has a next function and a function to return the iterator itself
+i = iter('abcde')
+print(next(i))  # prints a
+
+# decorators are functions that take one function and return an enhanced one
+# list.index() is O(N), if the list is sorted, you should use bisect instead, this is faster as its based on binary search
+# . If your list is not in the correct order, then sorting it is a task with at least O(n log n)
+# complexity. This is a worse class than O(n), so sorting the whole list to then perform a
+# single search will not pay off. However, if you need to perform a number of index searches
+# across a large list that rarely changes, using a single sort operation for bisect may prove to
+# be the best trade-off.
+
+# A deque is an alternative implementation for lists. While the built-in list type is based on
+# ordinary arrays, a deque is based on a doubly-linked list. Hence, a deque is much faster
+# when you need to insert something into its middle or head, but much slower when you
+# need to access an arbitrary index.
+
+# Remember to always profile your code
+# before switching from list to deque, because a few things that are fast in arrays (such as
+# accessing an arbitrary index) are extremely inefficient in linked lists.
+
+# python multiprocessing lets us work with processes asif they were threads
+
+# its smart to build a process pool in the same way we have thread pools
