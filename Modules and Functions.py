@@ -250,3 +250,7 @@ myfunc1_3()  # accessed the variable in enclosing scope without using non-local
 # As you’ve learned so far, a Python scope determines where in your program a name is visible.
 # Python scopes are implemented as dictionaries that map names to objects. These dictionaries are commonly called namespaces.
 # These are the concrete mechanisms that Python uses to store names. They’re stored in a special attribute called .__dict__.
+
+
+# If and else scopes do not count as anew scope, as anything you define or use within them will be accessible in the outer scope that the if/else statement exists in
+# same for for loops
